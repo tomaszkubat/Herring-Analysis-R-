@@ -1,2 +1,2 @@
-# Herring-Analysis-R-
+# Herring Analysis
 Herring Analysis with R
