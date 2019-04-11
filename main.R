@@ -19,3 +19,6 @@ loadInstall(globalVariables$requiredPackages) # load/install requred packages
 # source('scripts/data/cleanData.R')
 # list of loaded packages
 # sessionInfo()
+
+# add dynamic date in Rmd
+https://kbroman.org/knitr_knutshell/pages/Rmarkdown.html
