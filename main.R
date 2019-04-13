@@ -7,7 +7,7 @@ globalVariables = list() # create empty list for global variables
 globalVariables[['wd']] <- dirname(rstudioapi::getSourceEditorContext()$path) # get working directory
 setwd(globalVariables$wd) # set working directory
 
-globalVariables[['requiredPackages']] <- c('dplyr', 'Hmisc', 'corrplot') # required packages
+globalVariables[['requiredPackages']] <- c('dplyr', 'Hmisc', 'corrplot', 'knitr') # required packages
 
 
 # load data from files
