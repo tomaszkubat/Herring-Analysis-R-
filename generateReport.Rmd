@@ -1,0 +1,70 @@
+---
+title: "Herring Analysis"
+author: "Tomasz Kubat"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  html_document: 
+    number_sections: yes
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE, results='hide'}
+knitr::opts_chunk$set(echo = TRUE, cache=TRUE) # knitr setup
+
+globalVariables = list() # create empty list for global variables
+globalVariables[['wd']] <- '/home/anaconda/Projects/HerringAnalysis'
+# globalVariables[['wd']] <- dirname(rstudioapi::getSourceEditorContext()$path) # get working directory
+
+setwd(globalVariables$wd) # set working directory
+globalVariables[['requiredPackages']] <- c('dplyr', 'Hmisc', 'corrplot', 'knitr', 'ggplot2', 'rmarkdown') # set required packages
+
+# print(getwd())
+source('scripts/loadFunctions.R') # load user-defined functions
+source('scripts/loadData.R') # load and clean data
+```
+
+# Summary
+
+Bla bla bla
+
+# Data
+
+## General info
+We use observations `r dim(dataRaw)[1]` devided into `r dim(dataRaw)[2]` variables.
+
+## Rawa data
+
+The following paragraph presents some information about **raw dataset**.
+```{r dataRaw}
+
+summary(dataRaw)
+# plot(dataRaw)
+
+
+```
+## Cleaned data
+
+The following paragraph presents some information about **cleaned dataset**.
+Performed operations:
+* aaa
+* bbb
+
+```{r dataCleaned}
+
+summary(dataRaw)
+# plot(dataCleaned)
+# number of imputed rows
+
+```
+
+# Analysis
+
+dodac wykres dynamiczny w podziale na miesiace
+zbadaj korelacje wartosci (dej wykres matrix corplot)
+Graphs
+Interaktywny wykres lub animację prezentującą zmianę rozmiaru śledzi w czasie.
+
+# Apendix
+
+* **used (loaded) packages:** `r sort(sessionInfo()$basePkgs)`
