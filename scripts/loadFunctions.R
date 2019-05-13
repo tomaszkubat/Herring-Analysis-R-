@@ -6,7 +6,10 @@ loadInstall <- function(x){
     } 
     library(package=i, character.only=TRUE) # load package
   } # end for
+  # example of use
+  # loadInstall(c('stats','base','forecast'))
 }
 
-# example of use
-# loadInstall(c('stats','base','forecast'))
+
+
+loadInstall(globalVariables$requiredPackages) # load/install requred packages

@@ -9,7 +9,7 @@ dataRaw <- read.table(
   sep = ',',
   na.strings = c('?'), # treat given characters as NA
   row.names = 1, # read first column as row.name
-  header = TRUE,
+  header = TRUE, # treat first row as a header
   colClasses = c("integer", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "integer", "numeric", "numeric", "numeric", "numeric", "factor", "numeric")
 )
 
@@ -31,9 +31,7 @@ dataRaw <- rename(dataRaw,
     northAtlanticOscillation = nao # oscylacja północnoatlantycka [mb]
 )
 
-
-
-### clean data
+# clean data
 dataCleaned <- dataRaw
 dataCleaned$planktonCfin1 <- with(dataCleaned, impute(planktonCfin1, mean))
 dataCleaned$planktonCfin2 <- with(dataCleaned, impute(planktonCfin2, mean))
@@ -43,36 +41,27 @@ dataCleaned$planktonLcop1 <- with(dataCleaned, impute(planktonLcop1, mean))
 dataCleaned$planktonLcop2 <- with(dataCleaned, impute(planktonLcop2, mean))
 dataCleaned$waterTemperature <- with(dataCleaned, impute(waterTemperature, mean))
 
+
 ### SUMMARIZE RAW DATA
 
-dim(dataRaw)
-summary(dataRaw) # summary 1
+# dim(dataRaw)
+# summary(dataRaw) # summary 1
 
 
 ### SUMMARIZE CLEANED DATA
 
 ### no outliers (month: 1-12, numbers > 0)
 ### prc of NA is not significant - we can'not remove variables
-plot(dataRaw)
+# plot(dataRaw)
 
 
-dim(dataCleaned)
-summary(dataCleaned)
-dataCleanedCorr <- cor(select(dataCleaned, -monthNr)) # calculate correlation for numeric variables
 
-dataCleanedCorr
-corrplot(dataCleanedCorr, method = 'circle', insig = 'blank', order = 'alphabet', type = 'upper')
+# summary(dataCleaned)
+# dataCleanedCorr <- cor(select(dataCleaned, -monthNr)) # calculate correlation for numeric variables
 
-d <- dim(dataCleanedCorr)[1]
+# dataCleanedCorr
+# corrplot(dataCleanedCorr, method = 'circle', insig = 'blank', order = 'alphabet', type = 'upper')
 
-for (i in 1:d) {
-  for (j in 1:d) {
-    if (i != j){
-      print(paste(i,j))
-    } 
-  }
-}
-
-
+# d <- dim(dataCleanedCorr)[1]
 # ???
 # plot(dataCleaned)
