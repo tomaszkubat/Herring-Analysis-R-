@@ -31,37 +31,19 @@ dataRaw <- rename(dataRaw,
     northAtlanticOscillation = nao # oscylacja północnoatlantycka [mb]
 )
 
+# impute data
+dataImputed <- dataRaw
+dataImputed$planktonCfin1 <- with(dataImputed, impute(planktonCfin1, mean))
+dataImputed$planktonCfin2 <- with(dataImputed, impute(planktonCfin2, mean))
+dataImputed$planktonChel1 <- with(dataImputed, impute(planktonChel1, mean))
+dataImputed$planktonChel2 <- with(dataImputed, impute(planktonChel2, mean))
+dataImputed$planktonLcop1 <- with(dataImputed, impute(planktonLcop1, mean))
+dataImputed$planktonLcop2 <- with(dataImputed, impute(planktonLcop2, mean))
+dataImputed$waterTemperature <- with(dataImputed, impute(waterTemperature, mean))
+
+
 # clean data
-dataCleaned <- dataRaw
-dataCleaned$planktonCfin1 <- with(dataCleaned, impute(planktonCfin1, mean))
-dataCleaned$planktonCfin2 <- with(dataCleaned, impute(planktonCfin2, mean))
-dataCleaned$planktonChel1 <- with(dataCleaned, impute(planktonChel1, mean))
-dataCleaned$planktonChel2 <- with(dataCleaned, impute(planktonChel2, mean))
-dataCleaned$planktonLcop1 <- with(dataCleaned, impute(planktonLcop1, mean))
-dataCleaned$planktonLcop2 <- with(dataCleaned, impute(planktonLcop2, mean))
-dataCleaned$waterTemperature <- with(dataCleaned, impute(waterTemperature, mean))
-
-
-### SUMMARIZE RAW DATA
-
-# dim(dataRaw)
-# summary(dataRaw) # summary 1
-
-
-### SUMMARIZE CLEANED DATA
-
-### no outliers (month: 1-12, numbers > 0)
-### prc of NA is not significant - we can'not remove variables
-# plot(dataRaw)
-
-
-
-# summary(dataCleaned)
-# dataCleanedCorr <- cor(select(dataCleaned, -monthNr)) # calculate correlation for numeric variables
-
-# dataCleanedCorr
-# corrplot(dataCleanedCorr, method = 'circle', insig = 'blank', order = 'alphabet', type = 'upper')
-
-# d <- dim(dataCleanedCorr)[1]
-# ???
-# plot(dataCleaned)
+dataCleaned <- select(
+  dataImputed,
+  -c(fryLeftAnnualPrc, fryLeftPrc, fryAnnualSize, planktonLcop1, planktonLcop2, northAtlanticOscillation)
+) # remove redundant variables
