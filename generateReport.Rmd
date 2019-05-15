@@ -10,7 +10,7 @@ output:
 ---
 
 ```{r setup, include=FALSE, results='hide'}
-knitr::opts_chunk$set(echo = TRUE, cache=TRUE) # knitr setup
+knitr::opts_chunk$set(echo = FALSE, cache=TRUE) # knitr setup
 
 globalVariables = list() # create empty list for global variables
 globalVariables[['wd']] <- '/home/anaconda/Projects/HerringAnalysis'
@@ -28,43 +28,88 @@ source('scripts/loadData.R') # load and clean data
 
 Bla bla bla
 
-# Data
+```{r summaryDynamicPlot}
 
-## General info
-We use observations `r dim(dataRaw)[1]` devided into `r dim(dataRaw)[2]` variables.
-
-## Rawa data
-
-The following paragraph presents some information about **raw dataset**.
-```{r dataRaw}
-
-summary(dataRaw)
-# plot(dataRaw)
+# create object for dynamic plor
+# boxplot(dataCleaned$length ~ dataCleaned$monthNr)
 
 
-```
-## Cleaned data
+# ggDP <- ggplot(dataCleaned, aes(x=monthNr, y=length)) +
+#  geom_point()
+  
+  
+# print plot
 
-The following paragraph presents some information about **cleaned dataset**.
-Performed operations:
-* aaa
-* bbb
-
-```{r dataCleaned}
-
-summary(dataRaw)
-# plot(dataCleaned)
-# number of imputed rows
 
 ```
+
+
+
+
+# Dataset
+
+## General information
+
+We operate on herrings dataset which contains of `r dim(dataRaw)[1]` observations devided into `r dim(dataRaw)[2]` variables. 
+
+
+## Cleaning the data
+
+Performed operations:  
+* **renaming columns** to ensure better data understanding.  
+* **imputations** were performed to improve data quality. Removing some variables with missing data is rather a wird option, because percent of NAs in dataset is rather insignifficant (~3% on average, differs among the variables).  
+* **removing highly correlated variables**. Two variables, *length* and *monthNr*, were excluded from reduction operation, due to being independent and factor, respectively. Removed correlated to:  
+- *herrinsNumber*: *fryLeftAnnualPrc* (-0.71), *fryLeftPrc* (-0.51), *fryAnnualSize* (0.37)  
+- *planktonChel1*: *planktonLcop1* (0.93), *northAtlanticOscillation* (-0.5)
+- *planktonChel2*:  *planktonLcop2* (0.86)  
+
+
+
+```{r dataCorrelation}
+dataCorr <- cor(select(dataImputed, -c(length,monthNr))) # calculate correlation for numeric variables (exclude length (y) and monthnr (factor))
+corrplot(dataCorr, method = 'circle', insig = 'blank', order = 'alphabet', type = 'upper') # draw corplot
+# round(dataImputedCorr,2)
+```
+
+
+
+
+Bellow is presented the summary (a descriptive statistics) about the clened dataset.
+
+```{r dataSummary}
+
+library(tidyr)
+library(purrr)
+dataCleaned %>%
+  keep(is.numeric) %>%
+  gather() %>%
+  ggplot(aes(value)) + 
+  facet_wrap(~ key, scales = "free_x") +
+  geom_histogram()
+
+
+# summary(dataCleaned)
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Analysis
 
 dodac wykres dynamiczny w podziale na miesiace
-zbadaj korelacje wartosci (dej wykres matrix corplot)
 Graphs
 Interaktywny wykres lub animację prezentującą zmianę rozmiaru śledzi w czasie.
 
-# Apendix
+# Annotations
 
-* **used (loaded) packages:** `r sort(sessionInfo()$basePkgs)`
+* Missing the information about the year complicates performing analysis.
+* To prepare report were used packages listed below: `r sort(sessionInfo()$basePkgs)`
